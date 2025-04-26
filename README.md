@@ -45,8 +45,3 @@ O site de e-commerce analisado possui uma estrutura simples de 4 páginas:
 - **Pontos de abandono** - Identificação de onde os usuários abandonam o funil
 - **Diferenças por segmento** - Comparação de desempenho entre segmentos de usuários
 - **Foco em usuários novos** - Análise específica do comportamento de novos usuários
-
-## Screenshots
-![Funnel Overview](https://via.placeholder.com/800x400?text=Funnel+Overview)
-![User Segments](https://via.placeholder.com/800x400?text=User+Segments)
-![Recommendations](https://via.placeholder.com/800x400?text=Recommendations)
