@@ -1,19 +1,17 @@
 import pandas as pd
 import numpy as np
 import os
-
-import os
 import pandas as pd
 
 def load_data():
     base_path = os.path.abspath(os.path.dirname(__file__))  
     project_root = os.path.abspath(os.path.join(base_path, '..'))  
 
-    home_path = os.path.join(project_root, 'data', 'raw', 'home_page_table.csv')
-    search_path = os.path.join(project_root, 'data', 'raw', 'search_page_table.csv')
-    payment_path = os.path.join(project_root, 'data', 'raw', 'payment_page_table.csv')
-    confirmation_path = os.path.join(project_root, 'data', 'raw', 'payment_confirmation_table.csv')
-    user_path = os.path.join(project_root, 'data', 'raw', 'user_table.csv')
+    home_path = os.path.join(project_root, 'data', 'processed', 'home_page_table.csv')
+    search_path = os.path.join(project_root, 'data', 'processed', 'search_page_table.csv')
+    payment_path = os.path.join(project_root, 'data', 'processed', 'payment_page_table.csv')
+    confirmation_path = os.path.join(project_root, 'data', 'processed', 'payment_confirmation_table.csv')
+    user_path = os.path.join(project_root, 'data', 'processed', 'user_table.csv')
 
     try:
         home_df = pd.read_csv(home_path)
@@ -22,6 +20,10 @@ def load_data():
         confirmation_df = pd.read_csv(confirmation_path)
         user_df = pd.read_csv(user_path)
         
+        #convertendo a coluna 'date' para datetime depois de carregar
+        if 'date' in user_df.columns:
+            user_df['date'] = pd.to_datetime(user_df['date'], errors='coerce')
+
         print(f"Loaded data successfully. Dimensions:")
         print(f"Home page: {home_df.shape}")
         print(f"Search page: {search_df.shape}")
@@ -34,35 +36,6 @@ def load_data():
     except Exception as e:
         print(f"Error loading data: {str(e)}")
         return None, None, None, None, None
-
-
-def clean_data(home_df, search_df, payment_df, confirmation_df, user_df):
-    home = home_df.copy()
-    search = search_df.copy()
-    payment = payment_df.copy()
-    confirmation = confirmation_df.copy()
-    users = user_df.copy()
-
-    home = home.drop_duplicates()
-    search = search.drop_duplicates()
-    payment = payment.drop_duplicates()
-    confirmation = confirmation.drop_duplicates()
-    users = users.drop_duplicates()
-    
-    for df, name in zip([home, search, payment, confirmation, users], 
-                       ['home', 'search', 'payment', 'confirmation', 'users']):
-        null_count = df.isnull().sum().sum()
-        if null_count > 0:
-            print(f"Warning: {name} contains {null_count} null values")
-    
-    for df in [home, search, payment, confirmation, users]:
-        if 'user_id' in df.columns:
-            df['user_id'] = df['user_id'].astype(int)
-    
-    if 'date' in users.columns:
-        users['date'] = pd.to_datetime(users['date'])
-    
-    return home, search, payment, confirmation, users
 
 def merge_with_users(page_df, user_df):
     merged_df = pd.merge(page_df, user_df, on='user_id', how='left')
@@ -146,10 +119,24 @@ def segment_by_attribute(home_df, search_df, payment_df, confirmation_df, user_d
     return results
 
 def identify_new_users(user_df, days_threshold=7):
+    if 'date' not in user_df.columns:
+        raise ValueError("user_df precisa ter a coluna 'date'.")
+
+    # 🔥 Forçar transformação para datetime SEMPRE aqui
+    try:
+        user_df['date'] = pd.to_datetime(user_df['date'], errors='coerce')
+    except Exception as e:
+        raise ValueError(f"Erro convertendo 'date' para datetime: {e}")
+
+    # 🔥 Agora a data é garantidamente datetime
     max_date = user_df['date'].max()
 
+    if pd.isnull(max_date):
+        raise ValueError("Nenhuma data válida encontrada em user_df['date'].")
+
     new_users = user_df[user_df['date'] >= (max_date - pd.Timedelta(days=days_threshold))]
-    
     existing_users = user_df[user_df['date'] < (max_date - pd.Timedelta(days=days_threshold))]
-    
+
     return new_users, existing_users
+
+

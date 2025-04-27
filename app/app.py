@@ -13,7 +13,7 @@ import sys
 sys.path.append('/Users/Felipe/Documents/bc_clara_fm/EcommerceFunnel/src')
 sys.path.append('/Users/Felipe/Documents/bc_clara_fm/EcommerceFunnel/reports')
 
-from utils import load_data, clean_data
+from utils import load_data
 from analysis import perform_funnel_analysis, generate_insights, generate_recommendations
 from visualization import (
     create_funnel_chart, create_conversion_rate_chart, create_drop_off_chart,
@@ -51,12 +51,6 @@ def main():
         if home_df is None:
             st.error("Failed to load data. Please check file paths and formats.")
             return
-        
-        # Clean data
-        home_df, search_df, payment_df, confirmation_df, user_df = clean_data(
-            home_df, search_df, payment_df, confirmation_df, user_df
-        )
-        
         # Perform analysis
         analysis_results = perform_funnel_analysis(
             home_df, search_df, payment_df, confirmation_df, user_df
@@ -67,13 +61,15 @@ def main():
         recommendations = generate_recommendations(analysis_results)
     
     # Create tabs for different sections
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📊 Funnel Overview", 
-        "👥 User Segments", 
-        "🔍 New vs Existing Users", 
-        "💡 Insights", 
-        "📝 Recommendations"
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    "📊 Funnel Overview", 
+    "👥 User Segments", 
+    "🔍 New vs Existing Users", 
+    "💡 Insights", 
+    "📝 Recommendations",  
+    "📈 Advanced Analytics"
     ])
+
     
     # Tab 1: Funnel Overview
     with tab1:
@@ -333,7 +329,196 @@ def main():
                 ), 
                 unsafe_allow_html=True
             )
-    
+    with tab6:
+        st.header("📈 Advanced Funnel Analysis")
+        st.markdown("### Deep dive into user behaviors and conversion analysis.")
+
+        # 🔵 Drop-off Heatmap por Dispositivo (Mobile vs Desktop)
+        st.subheader("🔵 Drop-off Heatmap (Device)")
+
+        # Merge device information
+        home_device = home_df.merge(user_df[['user_id', 'device']], on='user_id', how='left')
+        search_device = search_df.merge(user_df[['user_id', 'device']], on='user_id', how='left')
+        payment_device = payment_df.merge(user_df[['user_id', 'device']], on='user_id', how='left')
+        confirmation_device = confirmation_df.merge(user_df[['user_id', 'device']], on='user_id', how='left')
+
+        def calculate_dropoff_rates(step_dfs, segments, segment_name):
+            rates = []
+            for step_idx in range(len(step_dfs) - 1):
+                start_step = step_dfs[step_idx]
+                next_step = step_dfs[step_idx + 1]
+                for segment in segments:
+                    start_segment = start_step[start_step[segment_name] == segment]
+                    next_segment = next_step[next_step[segment_name] == segment]
+                    if len(start_segment) == 0:
+                        dropoff_rate = None
+                    else:
+                        dropoff_rate = 1 - (len(next_segment) / len(start_segment))
+                    rates.append({
+                        'From Step': f"Step {step_idx+1} → {step_idx+2}",
+                        'Segment': segment,
+                        'Drop-off Rate': round(dropoff_rate * 100, 2) if dropoff_rate is not None else None
+                    })
+            return pd.DataFrame(rates)
+
+        device_segments = user_df['device'].dropna().unique()
+
+        dropoff_device = calculate_dropoff_rates(
+            [home_device, search_device, payment_device, confirmation_device],
+            device_segments,
+            segment_name='device'
+        )
+
+        fig_device = px.density_heatmap(
+            dropoff_device,
+            x='From Step',
+            y='Segment',
+            z='Drop-off Rate',
+            color_continuous_scale='Reds',
+            labels={'Drop-off Rate': '% Drop-off'},
+            title="Drop-off Rates by Device"
+        )
+
+        st.plotly_chart(fig_device, use_container_width=True)
+
+        # 🔵 Drop-off Heatmap por Tipo de Usuário (Novo vs Existente)
+        st.subheader("🔵 Drop-off Heatmap (User Type)")
+
+        # Definir Novos vs Existentes
+        user_df['date'] = pd.to_datetime(user_df['date'], errors='coerce')
+        cutoff_date = user_df['date'].max() - pd.Timedelta(days=7)
+        user_df['user_type'] = user_df['date'].apply(lambda x: 'New User' if x >= cutoff_date else 'Existing User')
+
+        home_type = home_df.merge(user_df[['user_id', 'user_type']], on='user_id', how='left')
+        search_type = search_df.merge(user_df[['user_id', 'user_type']], on='user_id', how='left')
+        payment_type = payment_df.merge(user_df[['user_id', 'user_type']], on='user_id', how='left')
+        confirmation_type = confirmation_df.merge(user_df[['user_id', 'user_type']], on='user_id', how='left')
+
+        user_segments = ['New User', 'Existing User']
+
+        dropoff_user_type = calculate_dropoff_rates(
+            [home_type, search_type, payment_type, confirmation_type],
+            user_segments,
+            segment_name='user_type'
+        )
+
+        fig_user_type = px.density_heatmap(
+            dropoff_user_type,
+            x='From Step',
+            y='Segment',
+            z='Drop-off Rate',
+            color_continuous_scale='Blues',
+            labels={'Drop-off Rate': '% Drop-off'},
+            title="Drop-off Rates by User Type"
+        )
+
+        st.plotly_chart(fig_user_type, use_container_width=True)
+        st.subheader("🟢 Funnel Comparison by Device")
+
+        # Função auxiliar para calcular taxas de conversão etapa a etapa
+        def calculate_step_conversion(step_dfs, segments, segment_name):
+            conversions = []
+            for step_idx in range(len(step_dfs) - 1):
+                start_step = step_dfs[step_idx]
+                next_step = step_dfs[step_idx + 1]
+
+                for segment in segments:
+                    start_segment = start_step[start_step[segment_name] == segment]
+                    next_segment = next_step[next_step[segment_name] == segment]
+
+                    if len(start_segment) == 0:
+                        conversion_rate = None
+                    else:
+                        conversion_rate = len(next_segment) / len(start_segment)
+
+                    conversions.append({
+                        'Step': f"Step {step_idx+1} → {step_idx+2}",
+                        'Segment': segment,
+                        'Conversion Rate': round(conversion_rate * 100, 2) if conversion_rate is not None else None
+                    })
+            return pd.DataFrame(conversions)
+
+        # Dispositivo - Mobile vs Desktop
+        conversion_device = calculate_step_conversion(
+            [home_device, search_device, payment_device, confirmation_device],
+            device_segments,
+            segment_name='device'
+        )
+
+        fig_funnel_device = px.bar(
+            conversion_device,
+            x="Step",
+            y="Conversion Rate",
+            color="Segment",
+            barmode="group",
+            labels={'Conversion Rate': '% Conversion'},
+            title="Funnel Conversion Comparison by Device"
+        )
+
+        st.plotly_chart(fig_funnel_device, use_container_width=True)
+
+                
+
+        st.subheader("🟣 Cumulative Conversion Curve")
+
+        # Marcar quem converteu (baseado na confirmation_df)
+        user_df['converted'] = user_df['user_id'].isin(confirmation_df['user_id'])
+
+        # Agrupar conversões por data
+        daily_conversions = user_df.groupby(user_df['date'].dt.date).agg(
+            total_users=('user_id', 'count'),
+            total_converted=('converted', 'sum')
+        ).reset_index()
+
+        # Calcular taxa diária
+        daily_conversions['conversion_rate'] = daily_conversions['total_converted'] / daily_conversions['total_users']
+
+        # Acumular ao longo do tempo
+        daily_conversions['cumulative_users'] = daily_conversions['total_users'].cumsum()
+        daily_conversions['cumulative_converted'] = daily_conversions['total_converted'].cumsum()
+        daily_conversions['cumulative_conversion_rate'] = daily_conversions['cumulative_converted'] / daily_conversions['cumulative_users']
+
+        # Plotar a curva
+        fig_cumulative = px.line(
+            daily_conversions,
+            x="date",
+            y="cumulative_conversion_rate",
+            labels={'cumulative_conversion_rate': 'Cumulative Conversion Rate', 'date': 'Date'},
+            title="Cumulative Conversion Rate Over Time"
+        )
+
+        fig_cumulative.update_traces(mode='lines+markers')
+        fig_cumulative.update_layout(yaxis_tickformat='%')
+
+        st.plotly_chart(fig_cumulative, use_container_width=True)
+        
+        # 🟠 Time to Conversion by Segment
+
+        st.subheader("🟠 Time to Conversion by Segment")
+
+        # Garantir que a data de cadastro está correta
+        user_df['date'] = pd.to_datetime(user_df['date'], errors='coerce')
+
+        # Marcar usuários que converteram
+        confirmed_users = user_df[user_df['user_id'].isin(confirmation_df['user_id'])]
+
+        # Para simular: vamos assumir que todos confirmaram no mesmo dia do cadastro
+        confirmed_users['conversion_time_days'] = 0  # 🔥 Simplificação para agora
+
+        # Se quiser simular atrasos reais: podemos randomizar pequenos atrasos
+
+        # Plotar o Boxplot
+        fig_boxplot = px.box(
+            confirmed_users,
+            x="user_type",
+            y="conversion_time_days",
+            color="user_type",
+            title="Time to Conversion by User Type",
+            labels={"conversion_time_days": "Days to Convert", "user_type": "User Type"}
+        )
+
+        st.plotly_chart(fig_boxplot, use_container_width=True)
+
     st.sidebar.markdown("---")
     st.sidebar.markdown("### About This Analysis")
     st.sidebar.markdown(
