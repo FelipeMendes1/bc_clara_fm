@@ -305,30 +305,212 @@ def main():
                 delta_color="inverse"
             )
     with tab4:
-        st.header("Key Insights")
-        
-        for i, insight in enumerate(insights):
-            st.markdown(f"### {i+1}. {insight}")
-    
+            st.header("💡 Insights")
+            st.markdown("### Understanding the Conversion Gaps by User Type")
+
+            st.markdown("""
+            #### 📊 Conversion Performance by User Type:
+            - **New Users Conversion Rate:** **0.13%** 🧍‍♂️
+            - **Existing Users Conversion Rate:** **0.53%** 🧍‍♂️➡️
+
+            #### 🧠 Key Findings:
+            - Existing users are **4x more likely to convert** compared to new users.
+            - The extremely low conversion rate among new users suggests **issues in the initial engagement** or **lack of early trust**.
+
+            #### 🚨 Root Cause Hypotheses:
+            - Poor onboarding experience for new users.
+            - Lack of clear value proposition immediately after signup.
+            - Navigation friction or lack of early guidance.
+            """)
+            st.markdown("### Diagnosing Drop-offs Across Funnel Stages")
+
+            st.markdown("""
+            #### 📊 Funnel Performance Overview:
+            - Major drop-offs occur **right after the Home Page**, especially for **New Users**.
+            - Only **40% of New Users** and **50% of Existing Users** proceed from Home to Search.
+            - From Search to Payment, abandonment increases drastically, with **New Users nearly vanishing** at the Payment stage.
+
+            #### 🧠 Key Findings:
+            - Initial engagement is weak, suggesting issues with the first user interaction experience.
+            - New Users struggle significantly more to progress through the funnel compared to Existing Users.
+            - The funnel narrows critically after the Search phase, indicating possible friction or lack of incentive to proceed.
+
+            #### 🚨 Root Cause Hypotheses (Evidence-Based):
+
+            1. **Homepage Overload or Lack of Clear CTAs (Call to Actions)**  
+            - According to HubSpot, 76% of users say the most important factor in a website's design is the ability to find what they want easily. A homepage without clear action steps significantly increases bounce rates.
+
+            2. **Search Function Inefficiency or Poor Relevance of Results**  
+            - A survey by Invesp shows that visitors who use internal search are 2-3 times more likely to convert, but only if search results are fast and relevant. A frustrating search experience causes rapid abandonment. 
+
+            3. **High Friction in Payment Process for First-Time Users**  
+            - Research from Baymard Institute indicates that complicated checkout processes cause 17% of users to abandon carts. Especially for new users, complexity or distrust during payment is a major conversion killer.
+            """)
+            st.markdown("### Identifying Critical Drop-offs in the Conversion Funnel")
+
+            st.markdown("""
+            #### 📊 Funnel Drop-off Analysis:
+            - **Home → Search:** 50% of users abandon at the first interaction point.
+            - **Search → Payment:** Critical drop-off of **86.66%**, indicating major friction in product discovery or purchase decision.
+            - **Payment → Confirmation:** Extremely high abandonment of **92.5%**, suggesting severe issues during checkout.
+
+            #### 🧠 Key Findings:
+            - Half of the users never initiate a search after landing on the Home page.
+            - Most users who do search fail to proceed to payment, implying problems with product attractiveness, trust, or pricing.
+            - Even among users willing to pay, the majority abandon before completing the transaction, highlighting checkout or payment barriers.
+
+            #### 🚨 Root Cause Hypotheses (Evidence-Based):
+
+            1. **Lack of Engagement or Motivation on Home Page**  
+            - According to a survey by Top Design Firms, 42% of users will leave a website due to poor functionality and lack of clear calls-to-action. ([topdesignfirms.com](https://topdesignfirms.com/blog/website-optimization-strategies?utm_source=chatgpt.com))
+
+            2. **Poor Product Relevance or Pricing Mismatch**  
+            - According to Baymard Institute, 55% of users abandon a purchase because they weren't ready to buy or found the product price too high compared to perceived value. ([baymard.com](https://baymard.com/lists/cart-abandonment-rate?utm_source=chatgpt.com))
+
+            3. **High Checkout Friction (Complex Forms, Lack of Payment Options)**  
+            - Research shows that 17% of users abandon carts due to complex or lengthy checkout processes, and 6% due to insufficient payment options. ([baymard.com](https://baymard.com/checkout-usability?utm_source=chatgpt.com))
+            """)
+            st.markdown("### Device Impact on Conversion Rates and Funnel Drop-offs")
+
+            st.markdown("""
+            #### 📊 Device-Based Conversion Overview:
+            - **Mobile users** have a conversion rate of **1.0%**, significantly outperforming **Desktop users** (**0.25%**).
+            - Despite Mobile users being fewer at the start, they maintain better progression through the funnel stages.
+
+            #### 🧠 Key Findings:
+            - **Mobile devices** are associated with a higher conversion likelihood.
+            - **Desktop users** exhibit higher abandonment, possibly due to differences in session intent or user expectations.
+            - Mobile users are slightly more consistent in progressing from search to payment stages.
+
+            #### 🚨 Root Cause Hypotheses (Evidence-Based):
+
+            1. **Mobile-friendly UX advantages**  
+            - Mobile-optimized experiences (simpler checkout, faster navigation) can increase conversion rates. A Statista report highlights that mobile commerce continues to grow faster than desktop purchases. ([statista.com](https://www.statista.com/statistics/249863/us-mobile-retail-commerce-sales-as-percentage-of-e-commerce-sales/?utm_source=chatgpt.com))
+
+            2. **Session context differences**  
+            - Mobile users often engage in quick, goal-driven sessions, favoring faster decisions. Desktop users may exhibit more exploratory behaviors, delaying purchases. (Nielsen Norman Group, Mobile vs Desktop Behavior Study)
+
+            3. **Performance and Speed**  
+            - Google's research shows that mobile page load times have a major impact on conversion: faster mobile experiences boost engagement. ([thinkwithgoogle.com](https://www.thinkwithgoogle.com/marketing-strategies/app-and-mobile/mobile-page-speed-new-industry-benchmarks/?utm_source=chatgpt.com))
+            """)
+            st.markdown("### Gender Influence on Conversion Behavior")
+
+            st.markdown("""
+            #### 📊 Gender-Based Conversion Overview:
+            - **Female users** have a slightly higher overall conversion rate (**0.53%**) compared to **Male users** (**0.47%**).
+            - Both genders have similar progression patterns across funnel stages, with minor differences at payment and confirmation stages.
+
+            #### 🧠 Key Findings:
+            - Female users are marginally more likely to complete the funnel compared to male users.
+            - Both genders show similar drop-off behaviors from Home to Search and from Search to Payment.
+
+            #### 🚨 Root Cause Hypotheses (Evidence-Based):
+
+            1. **Decision-Making Styles by Gender**  
+            - Studies suggest that women tend to make purchasing decisions faster when the platform aligns with their goals and trust is established early. (Harvard Business Review, "The Female Economy")
+
+            2. **Product/Category Relevance and Personalization**  
+            - Relevance of product offerings and personalization can affect male vs female user journeys differently. Better targeting may further enhance female conversion. (McKinsey Insights on Consumer Personalization)
+
+            3. **Trust and Confidence Factors**  
+            - Research indicates women place higher importance on security, privacy, and guarantees, influencing conversion positively when emphasized. (GlobalWebIndex Research)
+            """)
+            st.markdown("### Understanding Conversion Gaps Between New and Existing Users")
+
+            st.markdown("""
+            #### 📊 Conversion Rate Comparison:
+            - **Overall Conversion Rate:** 0.13% for New Users vs. 0.53% for Existing Users.
+            - **Home to Search Transition:** 39.97% (New) vs. 50.73% (Existing).
+            - **Search to Payment Transition:** 6.52% (New) vs. 13.73% (Existing).
+            - **Payment to Confirmation Transition:** 5.03% (New) vs. 7.56% (Existing).
+
+            #### 🧠 Key Findings:
+            - New users consistently underperform across all funnel stages compared to existing users.
+            - The **Home to Search** stage shows a **critical 10.76% lower engagement** for new users.
+            - **Payment to Confirmation** is the biggest bottleneck for new users, with a **94.97% drop-off rate**.
+
+            #### 🚨 Root Cause Hypotheses (Evidence-Based):
+
+            1. **Insufficient Motivation to Explore or Search**  
+            - Research suggests that the absence of immediate value or guidance leads to abandonment during first interactions. (Nielsen Norman Group, UX Research)
+
+            2. **Trust and Confidence Barriers for New Users**  
+            - First-time users are particularly sensitive to signals of trust, security, and value alignment. Lack of these leads to hesitancy at the point of payment. (Baymard Institute Checkout Study)
+
+            3. **Higher Cognitive Load for New Users**  
+            - New visitors face higher cognitive friction navigating the funnel. Without clear and simple progression cues, dropout rates surge. (NNGroup Cognitive Friction Studies)
+            """)
+            st.markdown("""
+            ### 📈 Low Search Engagement
+            - The vast majority of users performed only **one search** before abandoning the funnel.
+            - Very few users made multiple search attempts, suggesting **early frustration** or **low search engine effectiveness**.
+
+            ### 🛑 High Early Drop-off
+            - Over **45,200 users** visited only the Home page without progressing.
+            - Another **39,170 users** advanced to Search but then abandoned.
+            - Very few users reached the payment stage, and even fewer completed the funnel.
+
+            ### 🧠 Interpretation:
+            - **Search effectiveness is critical**: If users don't find what they want quickly, they leave.
+            - **First impression is crucial**: Homepage and Search must immediately guide and engage users.
+            - **Persistence is rare**: Users rarely make a second search if the first is unsuccessful, indicating a need for better navigation support.
+            """)
     with tab5:
         st.header("Strategic Recommendations")
+        st.markdown("### Data-Driven Actions to Optimize Funnel Performance")
+
+        st.markdown("""
+        #### 🎯 1. Improve New User Engagement and Trust:
+        - Implement a **guided onboarding** process for new users immediately upon account creation.
+        - **Highlight key benefits and trust elements** early (e.g., money-back guarantee, secure payments, social proof).
+        - Offer **special welcome promotions** to encourage first-time exploration and purchases.
+        - Simplify navigation and first steps with **clear calls-to-action** on the home page.
+
+        #### 🎯 2. Optimize the First Funnel Stage (Home → Search):
+        - Display **top categories, trending products**, or **personalized suggestions** directly on the home page.
+        - Include **intuitive search prompts** or **popular searches** immediately visible to users.
+        - Reduce homepage clutter; **focus the user journey on initiating a search** quickly.
+
+        #### 🎯 3. Enhance Search-to-Payment Transition:
+        - Improve **search functionality** to return fast, highly relevant results.
+        - Offer **filters and sorting options** to help users find the right products faster.
+        - Implement **scarcity tactics** ("Only X items left!", "Limited Time Offer!") to drive urgency towards purchase.
+
+        #### 🎯 4. Reduce Payment-to-Confirmation Drop-offs:
+        - **Simplify checkout**: fewer steps, fewer form fields, progress indicators.
+        - Enable **guest checkout** (no mandatory account creation) to reduce friction.
+        - Offer **multiple trusted payment methods** (credit card, PayPal, digital wallets).
+        - Reinforce trust at the payment step with **security badges** and **clear refund policies**.
+
+        #### 🎯 5. Leverage Mobile Advantage:
+        - Prioritize **mobile-first design**: fast loading, responsive layout, easy click targets.
+        - Optimize checkout flows for mobile: **autofill options**, **one-click payments**, **short forms**.
+        - Consider **mobile-exclusive promotions** to encourage mobile conversions.
+
+        #### 🎯 6. Personalize Experiences Based on Gender:
+        - Test **different messaging, offers, or product categories** tailored to gender preferences.
+        - Highlight **trust and security elements** for all users, but especially for female users who are more sensitive to these factors.
+        - Provide **customized product recommendations** based on past browsing or gender-specific trends.
+        """)
         
-        for i, recommendation in enumerate(recommendations):
-            st.markdown(f"### {i+1}. {recommendation}")
-    
-    st.sidebar.header("Download Analysis")
-    
-    if st.sidebar.button("Generate PowerPoint Presentation"):
-        with st.spinner("Generating PowerPoint presentation..."):
-            ppt_bytes = create_presentation(analysis_results, insights, recommendations)
-            st.sidebar.markdown(
-                download_link(
-                    ppt_bytes, 
-                    "E-commerce_Funnel_Analysis.pptx", 
-                    "⬇️ Download PowerPoint Presentation"
-                ), 
-                unsafe_allow_html=True
-            )
+        st.markdown("""
+        ### 🎯 7. Improve Search Resilience
+        - Implement **auto-suggestions** and **correct minor typos** automatically.
+        - Offer **similar search suggestions** if no results are found.
+        - Highlight **popular categories** when the user starts typing.
+
+        ### 🎯 8. Boost Persistence with Guided Navigation
+        - After an empty search result, propose **top categories or trending products** to encourage another search.
+        - Introduce a **wizard-like journey** for first-time users ("What are you looking for? Choose your interests.").
+
+        ### 🎯 9. Strengthen Early Stage Motivation
+        - Make the Home page **highly actionable**: large call-to-actions like "Start Searching", "See Top Offers", "Shop Best Sellers".
+        - Promote **quick wins**: discounts, limited-time offers, easy navigation paths.
+
+        ### 🎯 10. Minimize Abandonment at Search Stage
+        - Provide immediate **next-step prompts** after the first search (e.g., "Found what you needed? Proceed to checkout now!").
+        - Show **limited-stock messages** and **social proof** ("10 people are viewing this item!") to boost urgency.
+        """)
     with tab6:
         st.header("📈 Advanced Funnel Analysis")
         st.markdown("### Deep dive into user behaviors and conversion analysis.")
@@ -518,6 +700,90 @@ def main():
         )
 
         st.plotly_chart(fig_boxplot, use_container_width=True)
+
+        # 📈 Número de Buscas x Conversão
+
+        st.subheader("📈 Search Activity vs Conversion Success")
+
+        # Contar número de buscas por usuário
+        search_counts = search_df['user_id'].value_counts().rename_axis('user_id').reset_index(name='search_count')
+
+        # Marcar quem confirmou pagamento
+        search_counts['confirmed'] = search_counts['user_id'].isin(confirmation_df['user_id'])
+
+        # Agrupar por número de buscas e calcular taxa de conversão
+        conversion_by_searches = search_counts.groupby('search_count').agg(
+            total_users=('user_id', 'count'),
+            total_converted=('confirmed', 'sum')
+        ).reset_index()
+
+        conversion_by_searches['conversion_rate'] = conversion_by_searches['total_converted'] / conversion_by_searches['total_users']
+
+        # Plotar gráfico
+        fig_conversion_search = px.line(
+            conversion_by_searches,
+            x="search_count",
+            y="conversion_rate",
+            markers=True,
+            title="Conversion Rate by Number of Searches",
+            labels={"search_count": "Number of Searches", "conversion_rate": "Conversion Rate"},
+        )
+
+        fig_conversion_search.update_layout(
+            yaxis_tickformat=".1%",
+            xaxis_title="Number of Searches",
+            yaxis_title="Conversion Rate"
+        )
+
+        st.plotly_chart(fig_conversion_search, use_container_width=True)
+
+        # 📊 Número de Etapas Percorridas
+
+        st.subheader("📊 Funnel Depth Analysis: Number of Steps Completed")
+
+        # Criar conjunto de usuários por etapa
+        home_users = set(home_df['user_id'])
+        search_users = set(search_df['user_id'])
+        payment_users = set(payment_df['user_id'])
+        confirmation_users = set(confirmation_df['user_id'])
+
+        # Contar número de etapas atingidas por usuário
+        all_users = home_users.union(search_users).union(payment_users).union(confirmation_users)
+
+        user_steps = []
+        for user in all_users:
+            steps = 0
+            if user in home_users:
+                steps += 1
+            if user in search_users:
+                steps += 1
+            if user in payment_users:
+                steps += 1
+            if user in confirmation_users:
+                steps += 1
+            user_steps.append(steps)
+
+        # Criar DataFrame
+        steps_df = pd.DataFrame(user_steps, columns=['steps_completed'])
+
+        # Agrupar
+        steps_distribution = steps_df['steps_completed'].value_counts().sort_index().reset_index()
+        steps_distribution.columns = ['steps_completed', 'number_of_users']
+
+        # Plotar gráfico
+        fig_steps = px.bar(
+            steps_distribution,
+            x="steps_completed",
+            y="number_of_users",
+            text="number_of_users",
+            title="Number of Users by Funnel Depth",
+            labels={"steps_completed": "Number of Steps Completed", "number_of_users": "Number of Users"},
+        )
+
+        fig_steps.update_traces(textposition='outside')
+
+        st.plotly_chart(fig_steps, use_container_width=True)
+
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### About This Analysis")
