@@ -9,6 +9,7 @@ import tempfile
 import os
 import base64
 import sys
+from pathlib import Path
 
 sys.path.append('/Users/Felipe/Documents/bc_clara_fm/EcommerceFunnel/src')
 sys.path.append('/Users/Felipe/Documents/bc_clara_fm/EcommerceFunnel/reports')
@@ -797,6 +798,35 @@ def main():
         and provide strategic recommendations to improve conversion rates.
         """
     )
+    if st.sidebar.button("📥 Download Final Presentation"):
+        ppt_path = Path(r"C:\Users\Felipe\Documents\Clara\Business Case - Clara FM.pptx")
+        with open(ppt_path, "rb") as f:
+            ppt_bytes = f.read()
+
+        styled_link = f"""
+        <style>
+            .download-link {{
+                display: inline-block;
+                padding: 10px 15px;
+                background-color: #f63366;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
+            }}
+            .download-link:hover {{
+                background-color: #c0254f;
+            }}
+        </style>
+        <a href="data:application/octet-stream;base64,{base64.b64encode(ppt_bytes).decode()}"
+        download="Business_Case_Clara_FM.pptx"
+        class="download-link">
+        📄 Download the final presentation (PPTX)
+        </a>
+        """
+
+        st.sidebar.markdown(styled_link, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
