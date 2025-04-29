@@ -36,10 +36,12 @@ The analyzed e-commerce site follows a simple 4-page funnel structure:
 
 ---
 
-## How to Run Locally
+## Required Dependencies
 
-### 1. Clone the Repository
+To run this application, you must have the necessary libraries installed.  
+All required dependencies are listed in the `requirements.txt` file.
+
+You can install them easily by running:
+
 ```bash
-git clone https://github.com/FelipeMendes1/bc_clara_fm.git
-cd EcommerceFunnel
-streamlit run app/app.py
+pip install -r requirements.txt
