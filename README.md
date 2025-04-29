@@ -30,7 +30,7 @@ O site de e-commerce analisado possui uma estrutura simples de 4 páginas:
 ## Como Executar
 1. Clone este repositório
 2. Instale as dependências: `pip install -r requirements.txt`
-3. Execute o aplicativo: `streamlit run app.py`
+3. Execute o aplicativo: `streamlit run app/app.py`
 
 ## Estrutura de Arquivos
 - `app.py` - Aplicativo Streamlit principal
