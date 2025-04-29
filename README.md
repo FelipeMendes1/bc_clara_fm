@@ -1,47 +1,45 @@
 # E-commerce Funnel Analysis Tool
 
-## Descrição do Projeto
-Ferramenta de análise de funil de conversão de e-commerce para identificar problemas de conversão e fornecer recomendações estratégicas para melhorias.
+## Project Description
+A tool for analyzing the e-commerce conversion funnel to identify conversion issues and provide strategic recommendations for improvement.
 
-## Estrutura do Funil
-O site de e-commerce analisado possui uma estrutura simples de 4 páginas:
-1. **Página inicial (Home)** - Ponto de entrada para todos os usuários
-2. **Página de pesquisa (Search)** - Usuários chegam aqui após realizar uma pesquisa na página inicial
-3. **Página de pagamento (Payment)** - Usuários chegam aqui após clicar em um produto na página de pesquisa
-4. **Página de confirmação (Confirmation)** - Usuários chegam aqui após completar o pagamento
+---
 
-## Funcionalidades da Ferramenta
-- Análise completa do funil de conversão
-- Segmentação por dispositivo (Desktop vs Mobile)
-- Segmentação por gênero
-- Comparação entre usuários novos e existentes
-- Identificação de pontos de abandono críticos
-- Geração de insights baseados nos dados
-- Recomendações estratégicas para melhorias
-- Exportação de apresentação em PowerPoint
+##  Funnel Structure
+The analyzed e-commerce site follows a simple 4-page funnel structure:
 
-## Tecnologias Utilizadas
+1. **Home Page (Home)** — Entry point for all users.
+2. **Search Page (Search)** — Users arrive here after performing a search on the home page.
+3. **Payment Page (Payment)** — Users arrive here after selecting a product from the search page.
+4. **Confirmation Page (Confirmation)** — Users arrive here after completing the payment process.
+
+---
+
+## Tool Features
+- Full conversion funnel analysis
+- Segmentation by device (Desktop vs Mobile)
+- Segmentation by gender
+- Comparison between new and returning users
+- Identification of critical abandonment points
+- Data-driven insights generation
+- Strategic recommendations for improvement
+- PowerPoint presentation export functionality
+
+---
+
+## Technologies Used
 - Python
-- Pandas para análise de dados
-- Streamlit para a interface web
-- Plotly para visualizações interativas
-- Python-pptx para geração de apresentações
+- Pandas for data analysis
+- Streamlit for the web interface
+- Plotly for interactive visualizations
+- Python-pptx for PowerPoint presentation generation
 
-## Como Executar
-1. Clone este repositório
-2. Instale as dependências: `pip install -r requirements.txt`
-3. Execute o aplicativo: `streamlit run app/app.py`
+---
 
-## Estrutura de Arquivos
-- `app.py` - Aplicativo Streamlit principal
-- `utils.py` - Funções utilitárias para carregamento e processamento de dados
-- `analysis.py` - Funções para análise do funil e geração de insights
-- `visualization.py` - Funções para criação de visualizações
-- `presentation.py` - Funções para geração de apresentações PowerPoint
-- `attached_assets/` - Diretório contendo os arquivos CSV de dados
+## How to Run Locally
 
-## Análise de Dados
-- **Conversão geral** - Taxa de conversão da página inicial até a confirmação
-- **Pontos de abandono** - Identificação de onde os usuários abandonam o funil
-- **Diferenças por segmento** - Comparação de desempenho entre segmentos de usuários
-- **Foco em usuários novos** - Análise específica do comportamento de novos usuários
+### 1. Clone the Repository
+```bash
+git clone https://github.com/FelipeMendes1/bc_clara_fm.git
+cd EcommerceFunnel
+streamlit run app/app.py
